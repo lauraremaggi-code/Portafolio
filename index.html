@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portafolio · María Laura Remaggi · Nuevas Tecnologías</title>
+<style>
+:root{--bg:#f6f3fb;--ink:#1d1b2b;--mute:#5d5a70;--card:#ffffff;--line:#d9d4e8;--hub:#ffffff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15131f;--ink:#f1eef9;--mute:#b2adc6;--card:#201d2f;--line:#383350;--hub:#15131f}}
+:root[data-theme="dark"]{--bg:#15131f;--ink:#f1eef9;--mute:#b2adc6;--card:#201d2f;--line:#383350;--hub:#15131f}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;line-height:1.5;padding:1.5rem 1rem 3rem}
+main{max-width:760px;margin:0 auto}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.8rem,6vw,2.6rem);line-height:1.1;margin:0 0 .4rem}
+.sub{color:var(--mute);margin:0 0 1.2rem}
+.sub b{color:var(--ink);font-size:1.35rem;font-family:Georgia,serif}
+.hint{color:var(--mute);font-size:.95rem;margin:.2rem 0 0;text-align:center}
+.legend{text-align:center;margin:.6rem 0 0;font-weight:700}
+.tribute{font-style:italic;color:var(--mute);margin:0 0 1rem;font-size:.95rem}
+svg{display:block;width:100%;height:auto;max-width:640px;margin:0 auto}
+.gear{cursor:pointer;outline:none}
+.gear .spin{animation:spin 30s linear infinite}
+.gear.rev .spin{animation-direction:reverse}
+.gear path{stroke:var(--ink);stroke-width:1.5;stroke-opacity:.35;transition:stroke-width .2s,stroke-opacity .2s}
+.gear:hover path,.gear:focus-visible path,.gear.sel path{stroke-width:4;stroke-opacity:1}
+.gear text{font:700 22px "Trebuchet MS","Segoe UI",system-ui,sans-serif;font-variant-numeric:lining-nums;fill:#1d1b2b;text-anchor:middle;pointer-events:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.gear .spin{animation:none}}
+#panel{margin-top:1.4rem;border-top:6px solid var(--c,var(--line));padding-top:1rem}
+#panel[hidden]{display:none}
+.top{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+#ptitle{font-family:Georgia,serif;font-size:1.5rem;margin:0}
+.close{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:.4rem .8rem;font:inherit;cursor:pointer}
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-top:1rem}
+.act{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.9rem;display:flex;flex-direction:column;gap:.6rem}
+.act h3{margin:0;font-size:1.05rem}
+.tag{align-self:flex-start;font-size:.8rem;padding:.1rem .6rem;border-radius:99px;border:1.5px solid var(--c)}
+.tag.el{border-style:dashed}
+.img{aspect-ratio:16/9;border-radius:8px;display:grid;place-items:center;color:var(--mute);font-size:.9rem;background:repeating-linear-gradient(45deg,var(--line) 0 8px,transparent 8px 16px)}
+.act p{margin:0;font-size:.92rem;color:var(--mute)}
+.btn{margin-top:auto;text-align:center;text-decoration:none;color:#1d1b2b;background:var(--c);padding:.5rem .7rem;border-radius:8px;font-weight:700;font-size:.9rem}
+.btn:focus-visible,.close:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+<h1>María Laura Remaggi</h1>
+<p class="sub"><b>Portafolio de aprendizaje</b><br>Nuevas Tecnologías en la Enseñanza de las Ciencias<br>Especialización en Educación en Ciencias Naturales, UdeSA, 2026<br>Docente: Cristián Rizzi Iribarren</p>
+<p class="tribute">Los engranajes de esta página son un homenaje a Seymour Papert y a “Los engranajes de mi infancia”, el prólogo de <i>Desafío a la mente</i>.</p>
+<svg viewBox="-48 -48 330 168" role="group" aria-label="Siete engranajes: seis semanas y una reflexión final" id="gears"></svg>
+<p class="legend">Tocá un engranaje para abrir las actividades de la semana de clase correspondiente.</p>
+<p class="hint">Cada número es una semana de clase (1 a 6). El brote es la reflexión final.</p>
+<section id="panel" hidden aria-live="polite">
+<div class="top"><h2 id="ptitle"></h2><button class="close" id="close">Cerrar</button></div>
+<p class="sub" id="ptopic"></p>
+<div class="acts" id="acts"></div>
+</section>
+</main>
+<script>
+var COLORS=['#e53935','#fb8c00','#fdd835','#43a047','#1e88e5','#3949ab','#8e24aa'];
+var NAMES=['Semana 1 (17/9)','Semana 2 (24/9)','Semana 3 (1/10)','Semana 4 (8/10)','Semana 5 (15/10)','Semana 6 (22/10)','Reflexión final'];
+var TOPICS=['Historia y enfoques de las TIC en la educación','Modelos de simulación computacional','Usar, modificar y crear modelos basados en agentes','Datos abiertos y ciencia ciudadana','Datos con dispositivos móviles: visualizar y analizar','Pensamiento sistémico y mapas causales','Metacognición: mi tránsito por la materia'];
+var POS=[[0,0],[78,0],[156,0],[234,0],[195,67.5],[117,67.5],[39,67.5]];
+var KINDS=['Obligatoria','Obligatoria','Electiva'];
+var SPROUT='<g fill="#2e7d32" stroke="#2e7d32" stroke-linecap="round" stroke-linejoin="round"><path d="M0 10V-1" stroke-width="2.2" fill="none"/><path d="M0 1C-9 2-11-5-10-8C-3-8 0-4 0 1Z" stroke-width=".8"/><path d="M0-1C8-1 10-7 9-10C3-10 0-6 0-1Z" stroke-width=".8"/></g>';
+var LOREM='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+var FINAL='<article class="act" style="--c:'+COLORS[6]+';grid-column:1/-1"><h3>Ejercicio de metacognición</h3><p>'+LOREM+'</p><p>Acá va tu reflexión propia sobre tu tránsito por la materia (entre 300 y 600 palabras).</p></article>';
+function gearPath(ph){var p=[];for(var k=0;k<12;k++){var a=ph+k*30;[[-9,34],[-6,43],[6,43],[9,34]].forEach(function(q){var t=(a+q[0])*Math.PI/180;p.push((q[1]*Math.cos(t)).toFixed(1)+','+(q[1]*Math.sin(t)).toFixed(1))})}return 'M'+p.join('L')+'Z'}
+var NS='http://www.w3.org/2000/svg',svg=document.getElementById('gears'),sel=null;
+function mix(h,t,a){var n=parseInt(h.slice(1),16),r=n>>16,g=n>>8&255,b=n&255,T=t?255:0;return 'rgb('+Math.round(r+(T-r)*a)+','+Math.round(g+(T-g)*a)+','+Math.round(b+(T-b)*a)+')'}
+svg.innerHTML='<defs><filter id="sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="3" dy="6" stdDeviation="4" flood-color="#000" flood-opacity=".38"/></filter><filter id="bl"><feGaussianBlur stdDeviation="2.2"/></filter><radialGradient id="hub" cx="-5" cy="-6" r="22" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#cfcfe0"/><stop offset="1" stop-color="#85839c"/></radialGradient>'+COLORS.map(function(c,i){return '<radialGradient id="gr'+i+'" cx="0" cy="0" r="44" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="'+mix(c,1,.5)+'"/><stop offset=".55" stop-color="'+c+'"/><stop offset=".85" stop-color="'+mix(c,0,.35)+'"/><stop offset="1" stop-color="'+mix(c,0,.55)+'"/></radialGradient>'}).join('')+'</defs>';
+NAMES.forEach(function(n,i){
+var g=document.createElementNS(NS,'g');g.setAttribute('class','gear'+(i%2?' rev':''));
+g.setAttribute('transform','translate('+POS[i][0]+','+POS[i][1]+')');
+g.setAttribute('tabindex','0');g.setAttribute('role','button');g.setAttribute('aria-label',n);
+g.innerHTML='<g filter="url(#sh)"><g class="spin"><path d="'+gearPath(i%2?15:0)+'" fill="url(#gr'+i+')"/></g><ellipse cx="-14" cy="-21" rx="15" ry="6.5" transform="rotate(-35 -14 -21)" fill="#fff" opacity=".6" filter="url(#bl)"/><circle cx="-25" cy="-9" r="2.6" fill="#fff" opacity=".75"/><circle r="16" fill="url(#hub)" stroke="#6d6b84" stroke-width="1.2"/></g>'+(i<6?'<text dy=".36em">'+(i+1)+'</text>':SPROUT);
+g.addEventListener('click',function(){open(i)});
+g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open(i)}});
+svg.appendChild(g)});
+function open(i){
+document.querySelectorAll('.gear').forEach(function(x,j){x.classList.toggle('sel',j===i)});
+var pn=document.getElementById('panel');pn.hidden=false;pn.style.setProperty('--c',COLORS[i]);
+document.getElementById('ptitle').textContent=NAMES[i];document.getElementById('ptopic').textContent=TOPICS[i];
+document.getElementById('acts').innerHTML=i===6?FINAL:KINDS.map(function(k,j){
+return '<article class="act" style="--c:'+COLORS[i]+'"><h3>Actividad '+(j+1)+'</h3><span class="tag'+(j===2?' el':'')+'">'+k+'</span><div class="img">Imagen</div><p>'+LOREM+'</p><a class="btn" href="#" onclick="return false">Descargar mi participación</a></article>'}).join('');
+pn.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'nearest'})}
+document.getElementById('close').onclick=function(){document.getElementById('panel').hidden=true;document.querySelectorAll('.gear').forEach(function(x){x.classList.remove('sel')})};
+</script>
+</body>
+</html>
